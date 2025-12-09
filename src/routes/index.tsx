@@ -167,17 +167,6 @@ function HomeRoute() {
               Kite/Youmio/TURF and third-party UIs to quickly ask for an
               agent&apos;s risk profile.
             </p>
-            <div className="cta-row">
-              <button onClick={() => goToPage(1)}>Explore agents</button>
-              <a
-                className="btn ghost-btn"
-                href="https://eips.ethereum.org/EIPS/eip-8004"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Read ERC-8004 spec
-              </a>
-            </div>
           </div>
           <div className="glass-panel glass-content p-5 shimmer-border">
             <div className="stats-grid">
