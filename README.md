@@ -19,6 +19,19 @@ AgentScope gives risk, ops, and product teams a fast read on AI agents before le
 - Integrations: The Graph gateway; MCP/A2A endpoint data is surfaced from agent metadata.
 - Hacky/innovative bits: “API-ready” and “reviews-only” filters for fast trust triage; metadata resolution fallback; copy and layout tuned for spend-approval workflows.
 
+## How it’s Made
+- Built as a fast, single-page explorer so teams can sanity-check agents without wading through dashboards.
+- Uses TanStack Router loaders to keep search, filters, and stats reactive without heavy backends.
+- Pulls on-chain truth from The Graph and enriches it with client-side metadata resolution for missing registration files.
+- Optimized for “risk glanceability”: cards, badges, and short summaries tuned for approvals, not deep dives.
+
+## What We Built During the Hackathon
+- Reframed the product around agent risk and spend approvals (hero, copy, and stats geared to trust signals).
+- Added quick trust filters (“API-ready” and “reviews-only”) to triage agents faster.
+- Improved metadata resolution fallback so missing subgraph-decoded files still render usable profiles.
+- Updated setup to pnpm and tightened the trust-focused UX for list and detail views.
+- Planned next steps: x402 payment intent visualizations, lightweight trust scoring, and a simple risk-profile API any UI can call.
+
 ## Quick Start
 ```bash
 # Install dependencies
