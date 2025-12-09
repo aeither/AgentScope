@@ -1,72 +1,58 @@
-# 8004 Agents Explorer
+# AgentScope — Agent Risk & Reputation Explorer
 
-A web app to discover and explore AI agents registered on the ERC-8004 protocol.
+## Short Description
+A Vite + React explorer that surfaces ERC-8004 agents, their trust metadata, and community feedback. Search, filter, and drill into on-chain registration files to see endpoints, supported trust models, and reviews before approving agent-driven spend.
 
-{add-screenshot}
-
-## What is ERC-8004?
-
-ERC-8004 is an Ethereum standard for on-chain AI agent identity. Agents get a unique identity, metadata, reputation scores, and trust models, making them discoverable and verifiable on-chain.
-
-🔗 [Demo](https://erc-8004-explorer.vercel.app)
+## Full Description
+AgentScope is a lightweight frontend for inspecting ERC-8004 agent identities on Ethereum Sepolia. It pulls registration files and feedback from the Agent0 subgraph to help integrators understand how an agent presents itself (name, description, supported trust models, MCP/A2A endpoints) and how the community rates it (scores, tags, disputes). The goal is to give downstream UIs (Kite, Youmio, TURF, or other wallets/ops tools) a quick way to gauge risk posture before green-lighting payment intents. Future work includes deeper x402 intent visualizations, aggregated trust scoring, and a thin API surface for third parties to query risk summaries.
 
 ## Features
-
-- 🔍 **Search** - Find agents by name
-- 🏷️ **Filters** - Filter by reviews, API endpoints
-- 📄 **Pagination** - Configurable page sizes
-- ⭐ **Reviews** - View agent ratings and feedback
-- 🔗 **Endpoints** - See MCP and A2A API endpoints
-- 🌙 **Dark UI** - Clean, minimal dark theme
-
-## Quick Start
-
-```bash
-# Clone the repo
-git clone https://github.com/Eversmile12/8004-explorer
-cd 8004-agent-explorer
-
-# Install dependencies
-npm install
-
-# Run dev server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000)
-
-## Tech Stack
-
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **The Graph** - Blockchain data indexing
-- **Lucide** - Icons
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── agent/[id]/page.tsx   # Agent detail page
-│   ├── page.tsx              # Listing page
-│   └── layout.tsx            # Root layout
-├── components/
-│   └── PageSizeSelect.tsx    # Page size dropdown
-└── lib/
-    └── subgraph.ts           # GraphQL client
-```
+- 🔍 Search & filter agents by name, feedback, and API readiness
+- 📊 Global stats: registered agents and feedback counts from the subgraph
+- 🗂️ Paginated agent grid with configurable page sizes
+- 🧩 Agent detail pages with trust models, MCP/A2A endpoints, and metadata
+- ⭐ Feedback feed with scores, tags, and reviewer addresses
 
 ## Data Source
+- Agent and feedback data: Agent0 subgraph on Ethereum Sepolia  
+  🔗 https://thegraph.com/explorer/subgraphs/6wQRC7geo9XYAhckfmfo8kbMRLeWU8KQd3XsJqFKmZLT
 
-Agent data is fetched from the [Agent0 subgraph](https://thegraph.com/explorer/subgraphs/6wQRC7geo9XYAhckfmfo8kbMRLeWU8KQd3XsJqFKmZLT) on Ethereum Sepolia.
+## Tech Stack
+- Vite + React 19 + TypeScript
+- @tanstack/react-router for routing and data loading
+- Tailwind-style utility classes (see `globals.css`)
+- The Graph for on-chain data (GraphQL queries in `src/lib/subgraph.ts`)
+- Lucide icons
 
-## Tutorial
+## Quick Start
+```bash
+# Install dependencies
+pnpm install
 
-Want to build this from scratch? Check out the step-by-step tutorial:
+# Run dev server
+pnpm dev
+```
 
-📖 [**TUTORIAL.md**](./TUTORIAL.md)
+Open http://localhost:5173
+
+## Project Structure
+```
+src/
+├── main.tsx              # Router bootstrap
+├── routes/
+│   ├── __root.tsx        # Layout and nav
+│   ├── index.tsx         # Agent list, filters, stats
+│   └── agent/$id.tsx     # Agent detail + feedback
+├── components/
+│   └── PageSizeSelect.tsx
+├── lib/
+│   └── subgraph.ts       # GraphQL client for Agent0 subgraph
+└── globals.css           # Theme and layout styles
+```
+
+## Notes & Roadmap
+- Focused on ERC-8004 identities on Sepolia; intent/risk aggregation is UI-facing today and will expand with x402 payment intent data.
+- Planned: simplified API surface for third-party UIs to fetch agent risk snapshots, richer trust-score aggregation, and dispute/refund visualizations.
 
 ## License
-
 MIT
