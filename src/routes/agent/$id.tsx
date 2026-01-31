@@ -1,15 +1,5 @@
-import {
-  Link,
-  createFileRoute,
-  useNavigate,
-} from "@tanstack/react-router";
-import {
-  ArrowLeft,
-  ExternalLink,
-  ShieldCheck,
-  Sparkles,
-  Star,
-} from "lucide-react";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, ExternalLink, ShieldCheck, Sparkles, Star } from "lucide-react";
 import { fetchAgentWithFeedback, Feedback } from "@/lib/subgraph";
 
 export const Route = createFileRoute("/agent/$id")({
@@ -22,10 +12,7 @@ export const Route = createFileRoute("/agent/$id")({
 
     const avgScore =
       feedback.length > 0
-        ? Math.round(
-            feedback.reduce((acc, f) => acc + parseInt(f.score), 0) /
-              feedback.length,
-          )
+        ? Math.round(feedback.reduce((acc, f) => acc + parseInt(f.score), 0) / feedback.length)
         : null;
 
     return { agent, feedback, avgScore };
@@ -60,10 +47,7 @@ function AgentRoute() {
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-3">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 ghost-btn"
-        >
+        <Link to="/" className="inline-flex items-center gap-2 ghost-btn">
           <ArrowLeft size={16} />
           Back to all agents
         </Link>
@@ -74,11 +58,7 @@ function AgentRoute() {
           <div className="flex items-start gap-4">
             <div className="h-20 w-20 shrink-0 rounded-2xl overflow-hidden glass-panel">
               {image ? (
-                <img
-                  src={image}
-                  alt={name}
-                  className="h-full w-full object-cover"
-                />
+                <img src={image} alt={name} className="h-full w-full object-cover" />
               ) : (
                 <div className="h-full w-full flex items-center justify-center text-2xl font-bold text-[var(--text-secondary)]">
                   {name.charAt(0).toUpperCase()}
@@ -90,9 +70,7 @@ function AgentRoute() {
                 <Sparkles size={14} /> Agent risk profile
               </div>
               <h1 className="text-2xl font-semibold">{name}</h1>
-              <p className="text-sm text-[var(--text-secondary)] font-mono">
-                {agent.id}
-              </p>
+              <p className="text-sm text-[var(--text-secondary)] font-mono">{agent.id}</p>
             </div>
           </div>
 
@@ -142,21 +120,15 @@ function AgentRoute() {
 
           {description && (
             <div className="glass-panel glass-content p-4">
-              <h3 className="text-sm text-[var(--text-secondary)] mb-1">
-                Description
-              </h3>
-              <p className="text-[var(--text-secondary)] leading-relaxed">
-                {description}
-              </p>
+              <h3 className="text-sm text-[var(--text-secondary)] mb-1">Description</h3>
+              <p className="text-[var(--text-secondary)] leading-relaxed">{description}</p>
             </div>
           )}
         </div>
 
         <div className="space-y-3">
           <div className="glass-panel glass-content p-4">
-            <h3 className="text-sm text-[var(--text-secondary)] mb-2">
-              Endpoints
-            </h3>
+            <h3 className="text-sm text-[var(--text-secondary)] mb-2">Endpoints</h3>
             <div className="space-y-2">
               <EndpointRow label="MCP" url={mcpEndpoint} />
               <EndpointRow label="A2A" url={a2aEndpoint} />
@@ -164,9 +136,7 @@ function AgentRoute() {
           </div>
 
           <div className="glass-panel glass-content p-4">
-            <h3 className="text-sm text-[var(--text-secondary)] mb-2">
-              Registration file
-            </h3>
+            <h3 className="text-sm text-[var(--text-secondary)] mb-2">Registration file</h3>
             <div className="text-sm text-[var(--text-secondary)] space-y-1">
               <div className="flex justify-between">
                 <span>ID</span>
@@ -190,7 +160,8 @@ function AgentRoute() {
             </p>
           </div>
           <div className="badge">
-            <ShieldCheck size={14} /> {feedback.length > 0 ? "Community verified" : "Awaiting signals"}
+            <ShieldCheck size={14} />{" "}
+            {feedback.length > 0 ? "Community verified" : "Awaiting signals"}
           </div>
         </div>
 
@@ -225,9 +196,7 @@ function InfoCard({
     <div className="glass-panel glass-content p-4 space-y-1">
       <div className="text-sm text-[var(--text-secondary)]">{label}</div>
       <div className="text-lg font-semibold">{value}</div>
-      {helper && (
-        <div className="text-xs text-[var(--text-secondary)]">{helper}</div>
-      )}
+      {helper && <div className="text-xs text-[var(--text-secondary)]">{helper}</div>}
     </div>
   );
 }
@@ -249,9 +218,7 @@ function EndpointRow({ label, url }: { label: string; url: string | null | undef
       target="_blank"
       rel="noreferrer"
     >
-      <span className="badge">
-        {label} endpoint
-      </span>
+      <span className="badge">{label} endpoint</span>
       <span className="flex items-center gap-1 text-[var(--text-secondary)]">
         <span className="truncate max-w-[220px]">{url}</span>
         <ExternalLink size={14} />
@@ -295,11 +262,7 @@ function FeedbackCard({ feedback }: { feedback: Feedback }) {
           {formatTimestamp(feedback.createdAt)}
         </span>
       </div>
-      {text && (
-        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-          {text}
-        </p>
-      )}
+      {text && <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{text}</p>}
       <div className="flex flex-wrap gap-1.5">
         {tag1 && <span className="tag">{tag1}</span>}
         {tag2 && <span className="tag">{tag2}</span>}
@@ -333,4 +296,3 @@ function isReadableText(str: string | null): boolean {
     .filter((c) => c.charCodeAt(0) < 32 || c.charCodeAt(0) > 126).length;
   return nonReadable / str.length < 0.3;
 }
-

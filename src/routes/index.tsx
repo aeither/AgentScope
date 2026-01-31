@@ -1,16 +1,7 @@
 import { useMemo, useState } from "react";
-import {
-  Link,
-  createFileRoute,
-  useNavigate,
-} from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search, Filter, ShieldCheck, Activity, Sparkle } from "lucide-react";
-import {
-  fetchAgents,
-  fetchAgentCount,
-  fetchGlobalStats,
-  AgentFilters,
-} from "@/lib/subgraph";
+import { fetchAgents, fetchAgentCount, fetchGlobalStats, AgentFilters } from "@/lib/subgraph";
 import { PageSizeSelect } from "@/components/PageSizeSelect";
 
 const PAGE_SIZES = [12, 24, 48, 99];
@@ -29,23 +20,15 @@ export const Route = createFileRoute("/")({
     search: typeof search.search === "string" ? search.search : "",
     page: Number(search.page) || 1,
     perPage: Number(search.perPage) || DEFAULT_PAGE_SIZE,
-    hasReviews:
-      search.hasReviews === true || search.hasReviews === "true"
-        ? true
-        : false,
-    hasEndpoint:
-      search.hasEndpoint === true || search.hasEndpoint === "true"
-        ? true
-        : false,
+    hasReviews: search.hasReviews === true || search.hasReviews === "true" ? true : false,
+    hasEndpoint: search.hasEndpoint === true || search.hasEndpoint === "true" ? true : false,
   }),
   loader: async ({ search: rawSearch }) => {
     const search = rawSearch ?? {};
 
     const page = Math.max(1, Number(search.page) || 1);
     const requestedPageSize = Number(search.perPage) || DEFAULT_PAGE_SIZE;
-    const pageSize = PAGE_SIZES.includes(requestedPageSize)
-      ? requestedPageSize
-      : DEFAULT_PAGE_SIZE;
+    const pageSize = PAGE_SIZES.includes(requestedPageSize) ? requestedPageSize : DEFAULT_PAGE_SIZE;
     const skip = (page - 1) * pageSize;
 
     const filters: AgentFilters = {
@@ -54,9 +37,7 @@ export const Route = createFileRoute("/")({
       hasEndpoint: search.hasEndpoint || undefined,
     };
 
-    const hasActiveFilters = Boolean(
-      filters.search || filters.hasEndpoint || filters.hasReviews,
-    );
+    const hasActiveFilters = Boolean(filters.search || filters.hasEndpoint || filters.hasReviews);
 
     const [agents, stats, filteredCount] = await Promise.all([
       fetchAgents(pageSize, skip, filters),
@@ -85,22 +66,14 @@ export const Route = createFileRoute("/")({
 function HomeRoute() {
   const navigate = useNavigate();
   const search = Route.useSearch();
-  const {
-    agents,
-    stats,
-    totalAgents,
-    totalPages,
-    page,
-    pageSize,
-    hasActiveFilters,
-    searchTerm,
-  } = Route.useLoaderData();
+  const { agents, stats, totalAgents, totalPages, page, pageSize, hasActiveFilters, searchTerm } =
+    Route.useLoaderData();
 
   const [query, setQuery] = useState(searchTerm);
 
   const totalFeedback = useMemo(
     () => (stats?.totalFeedback ? parseInt(stats.totalFeedback) : 0),
-    [stats],
+    [stats]
   );
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -158,14 +131,11 @@ function HomeRoute() {
               <Sparkle size={14} />
               Agent Risk & Reputation Explorer
             </div>
-            <h1 className="hero-title">
-              Trust signals for ERC-8004 & x402 agent payments
-            </h1>
+            <h1 className="hero-title">Trust signals for ERC-8004 & x402 agent payments</h1>
             <p className="hero-subtitle">
-              Visualize payment intents per agent, track disputes and refunds,
-              and aggregate trust scores before approving spend. Built for
-              Kite/Youmio/TURF and third-party UIs to quickly ask for an
-              agent&apos;s risk profile.
+              Visualize payment intents per agent, track disputes and refunds, and aggregate trust
+              scores before approving spend. Built for Kite/Youmio/TURF and third-party UIs to
+              quickly ask for an agent&apos;s risk profile.
             </p>
           </div>
           <div className="glass-panel glass-content p-5 shimmer-border">
@@ -201,9 +171,7 @@ function HomeRoute() {
             <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
               <Filter size={16} />
               Filters & search
-              {hasActiveFilters && (
-                <span className="badge">Active</span>
-              )}
+              {hasActiveFilters && <span className="badge">Active</span>}
             </div>
             <div className="flex items-center gap-2">
               <PageSizeSelect
@@ -258,14 +226,11 @@ function HomeRoute() {
             {hasActiveFilters ? (
               <span>
                 {totalAgents.toLocaleString()} matching agents for
-                {searchTerm ? ` “${searchTerm}”` : ""}{" "}
-                {search.hasReviews ? "with reviews" : ""}{" "}
+                {searchTerm ? ` “${searchTerm}”` : ""} {search.hasReviews ? "with reviews" : ""}{" "}
                 {search.hasEndpoint ? "with endpoints" : ""}
               </span>
             ) : (
-              <span>
-                {totalAgents.toLocaleString()} registered agents on Sepolia
-              </span>
+              <span>{totalAgents.toLocaleString()} registered agents on Sepolia</span>
             )}
           </div>
         </div>
@@ -290,16 +255,11 @@ function HomeRoute() {
               </div>
               <div className="flex items-center gap-2">
                 {page > 1 && (
-                  <button
-                    className="ghost-btn"
-                    onClick={() => goToPage(page - 1)}
-                  >
+                  <button className="ghost-btn" onClick={() => goToPage(page - 1)}>
                     Previous
                   </button>
                 )}
-                {page < totalPages && (
-                  <button onClick={() => goToPage(page + 1)}>Next</button>
-                )}
+                {page < totalPages && <button onClick={() => goToPage(page + 1)}>Next</button>}
               </div>
             </div>
           </>
@@ -329,19 +289,12 @@ function StatCard({
   );
 }
 
-function AgentCard({
-  agent,
-}: {
-  agent: Awaited<ReturnType<typeof fetchAgents>>[number];
-}) {
-  const name =
-    agent.registrationFile?.name || `Agent #${agent.agentId}`;
+function AgentCard({ agent }: { agent: Awaited<ReturnType<typeof fetchAgents>>[number] }) {
+  const name = agent.registrationFile?.name || `Agent #${agent.agentId}`;
   const description = agent.registrationFile?.description;
   const trusts = agent.registrationFile?.supportedTrusts || [];
   const feedbackCount = parseInt(agent.totalFeedback);
-  const hasEndpoint =
-    agent.registrationFile?.mcpEndpoint ||
-    agent.registrationFile?.a2aEndpoint;
+  const hasEndpoint = agent.registrationFile?.mcpEndpoint || agent.registrationFile?.a2aEndpoint;
 
   return (
     <Link
@@ -352,26 +305,16 @@ function AgentCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="truncate text-lg font-semibold">{name}</h3>
-          <p className="text-xs text-[var(--text-secondary)]">
-            ID: {agent.agentId}
-          </p>
+          <p className="text-xs text-[var(--text-secondary)]">ID: {agent.agentId}</p>
         </div>
         <div className="flex gap-1.5">
-          {hasEndpoint && (
-            <span className="badge text-xs">API</span>
-          )}
-          {feedbackCount > 0 && (
-            <span className="badge text-xs">
-              {feedbackCount} feedback
-            </span>
-          )}
+          {hasEndpoint && <span className="badge text-xs">API</span>}
+          {feedbackCount > 0 && <span className="badge text-xs">{feedbackCount} feedback</span>}
         </div>
       </div>
 
       {description && (
-        <p className="text-sm text-[var(--text-secondary)] line-clamp-3">
-          {description}
-        </p>
+        <p className="text-sm text-[var(--text-secondary)] line-clamp-3">{description}</p>
       )}
 
       {trusts.length > 0 && (
@@ -412,4 +355,3 @@ function formatTimestamp(timestamp: string) {
     year: "numeric",
   });
 }
-

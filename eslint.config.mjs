@@ -2,6 +2,7 @@ import { defineConfig } from "eslint/config";
 import parser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import reactHooks from "eslint-plugin-react-hooks";
+import prettierConfig from "eslint-config-prettier";
 
 export default defineConfig([
   {
@@ -29,4 +30,5 @@ export default defineConfig([
       "react-hooks/exhaustive-deps": "warn",
     },
   },
+  prettierConfig,
 ]);

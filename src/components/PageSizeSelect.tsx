@@ -6,11 +6,7 @@ interface PageSizeSelectProps {
   onChange: (nextSize: number) => void;
 }
 
-export function PageSizeSelect({
-  currentSize,
-  sizes,
-  onChange,
-}: PageSizeSelectProps) {
+export function PageSizeSelect({ currentSize, sizes, onChange }: PageSizeSelectProps) {
   return (
     <div className="relative">
       <select
