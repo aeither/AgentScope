@@ -1,10 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  RouterProvider,
-  createRouter,
-  ScrollRestoration,
-} from "@tanstack/react-router";
+import { RouterProvider, createRouter, ScrollRestoration } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import "./globals.css";
 
@@ -26,6 +22,5 @@ createRoot(document.getElementById("root")!).render(
     <RouterProvider router={router}>
       <ScrollRestoration />
     </RouterProvider>
-  </StrictMode>,
+  </StrictMode>
 );
-
